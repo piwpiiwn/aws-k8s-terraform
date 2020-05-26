@@ -4,7 +4,31 @@ variable region {
   description = "AWS Region"
 }
 
-variable s3bucket {
+variable tags {
+  type        = map
+  description = "Default tags"
+}
+
+variable vpc_cidr_block {
   type        = string
-  description = "AWS Region"
+  default     = "10.0.0.0/16"
+  description = "CIDR for K8S VPC"
+}
+
+variable management_subnet_cidr_block {
+  type        = string
+  default     = "10.0.255.0/24"
+  description = "CIDR for K8S Management Subnet"
+}
+
+variable worker_subnet_1_cidr_block {
+  type        = string
+  default     = "10.0.1.0/24"
+  description = "CIDR for K8S Subnet 1"
+}
+
+variable worker_subnet_2_cidr_block {
+  type        = string
+  default     = "10.0.2.0/24"
+  description = "CIDR for K8S Subnet 2"
 }
