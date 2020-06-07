@@ -17,8 +17,8 @@ resource "aws_security_group" "master" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = [
-      aws_subnet.k8s_worker_1.cidr_block,
-      aws_subnet.k8s_worker_2.cidr_block
+      module.k8s_worker_1.subnet_id,
+      module.k8s_worker_2.subnet_id
     ]
   }
 
@@ -43,7 +43,7 @@ resource "aws_spot_instance_request" "master" {
   instance_type = var.master_instance_type
   key_name      = var.key_name
 
-  subnet_id                   = aws_subnet.k8s_management.id
+  subnet_id                   = module.k8s_management.subnet_id
   vpc_security_group_ids      = [aws_security_group.master.id]
   associate_public_ip_address = true
 
