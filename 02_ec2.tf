@@ -17,8 +17,8 @@ resource "aws_security_group" "master" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = [
-      module.k8s_worker_1.subnet_id,
-      module.k8s_worker_2.subnet_id
+      module.k8s_worker_1.subnet_cidr_block,
+      module.k8s_worker_2.subnet_cidr_block
     ]
   }
 
