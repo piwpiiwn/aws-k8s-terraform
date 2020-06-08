@@ -20,112 +20,39 @@ resource "aws_internet_gateway" "k8s" {
   )
 }
 
-resource "aws_subnet" "k8s_management" {
-  vpc_id            = aws_vpc.k8s.id
-  cidr_block        = var.management_subnet_cidr_block
-  availability_zone = "${var.region}a"
+module "k8s_management" {
+  source = "./modules/subnet-route-table"
 
-  map_public_ip_on_launch = true
-
-  tags = merge(
-    var.tags,
-    map(
-      "Name", "k8s_management"
-    )
-  )
-}
-
-resource "aws_route_table" "k8s_management" {
-  vpc_id = aws_vpc.k8s.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.k8s.id
-  }
-
-  tags = merge(
-    var.tags,
-    map(
-      "Name", "k8s_management"
-    )
-  )
-}
-
-resource "aws_route_table_association" "k8s_management" {
-  subnet_id      = aws_subnet.k8s_management.id
-  route_table_id = aws_route_table.k8s_management.id
-}
-
-resource "aws_subnet" "k8s_worker_1" {
-  vpc_id            = aws_vpc.k8s.id
-  cidr_block        = var.worker_subnet_1_cidr_block
-  availability_zone = "${var.region}b"
-
+  name                    = "k8s_management"
+  vpc_id                  = aws_vpc.k8s.id
+  cidr_block              = var.management_subnet_cidr_block
+  availability_zone       = "${var.region}a"
+  internet_gateway_id     = aws_internet_gateway.k8s.id
   map_public_ip_on_launch = false
 
-  tags = merge(
-    var.tags,
-    map(
-      "Name", "k8s_worker_1"
-    )
-  )
+  tags = var.tags
 }
 
-resource "aws_route_table" "k8s_worker_1" {
-  vpc_id = aws_vpc.k8s.id
+module "k8s_worker_1" {
+  source = "./modules/subnet-route-table"
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.k8s.id
-  }
+  name                = "k8s_worker_1"
+  vpc_id              = aws_vpc.k8s.id
+  cidr_block          = var.worker_subnet_1_cidr_block
+  availability_zone   = "${var.region}b"
+  internet_gateway_id = aws_internet_gateway.k8s.id
 
-  tags = merge(
-    var.tags,
-    map(
-      "Name", "k8s_worker_1"
-    )
-  )
+  tags = var.tags
 }
 
-resource "aws_route_table_association" "k8s_worker_1" {
-  subnet_id      = aws_subnet.k8s_worker_1.id
-  route_table_id = aws_route_table.k8s_worker_1.id
-}
+module "k8s_worker_2" {
+  source = "./modules/subnet-route-table"
 
+  name                = "k8s_worker_2"
+  vpc_id              = aws_vpc.k8s.id
+  cidr_block          = var.worker_subnet_2_cidr_block
+  availability_zone   = "${var.region}c"
+  internet_gateway_id = aws_internet_gateway.k8s.id
 
-resource "aws_subnet" "k8s_worker_2" {
-  vpc_id            = aws_vpc.k8s.id
-  cidr_block        = var.worker_subnet_2_cidr_block
-  availability_zone = "${var.region}c"
-
-  map_public_ip_on_launch = true
-
-  tags = merge(
-    var.tags,
-    map(
-      "Name", "k8s_worker_2"
-    )
-  )
-}
-
-
-resource "aws_route_table" "k8s_worker_2" {
-  vpc_id = aws_vpc.k8s.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.k8s.id
-  }
-
-  tags = merge(
-    var.tags,
-    map(
-      "Name", "k8s_worker_2"
-    )
-  )
-}
-
-resource "aws_route_table_association" "k8s_worker_2" {
-  subnet_id      = aws_subnet.k8s_worker_2.id
-  route_table_id = aws_route_table.k8s_worker_2.id
+  tags = var.tags
 }
