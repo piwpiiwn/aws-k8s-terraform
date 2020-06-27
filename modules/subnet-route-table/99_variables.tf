@@ -19,7 +19,6 @@ variable availability_zone {
 }
 
 variable public {
-  type        = string
   default     = true
   description = "Makes subnet public or private"
 }

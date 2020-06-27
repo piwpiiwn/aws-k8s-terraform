@@ -59,6 +59,9 @@ resource "aws_spot_instance_request" "worker_1" {
     volume_size = "20"
   }
 
+  wait_for_fulfillment = true
+  spot_type            = "one-time"
+
   tags = merge(
     var.tags,
     map(
@@ -127,6 +130,9 @@ resource "aws_spot_instance_request" "worker_1" {
 #   root_block_device {
 #     volume_size = "20"
 #   }
+
+# wait_for_fulfillment = true
+# spot_type            = "one-time"
 
 #   tags = merge(
 #     var.tags,
