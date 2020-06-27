@@ -62,3 +62,9 @@ variable key_name {
   default     = "k8s"
   description = "Public Key Name"
 }
+
+variable local_private_key_path {
+  type        = string
+  default     = "~/.ssh/piwpiiwn.id_rsa"
+  description = "Public Key Name"
+}

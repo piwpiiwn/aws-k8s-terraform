@@ -19,13 +19,13 @@ variable availability_zone {
 }
 
 variable public {
-  type        = string
+  type        = bool
   default     = true
   description = "Makes subnet public or private"
 }
 
 variable map_public_ip_on_launch {
-  type        = string
+  type        = bool
   default     = true
   description = "Assign Public IP Defaut value"
 }
