@@ -1,5 +1,8 @@
 provider "aws" {
   region = var.region
+
+  shared_credentials_file = "~/.aws/credentials"
+  profile                 = "piwpiiwn"
 }
 
 terraform {
@@ -9,5 +12,8 @@ terraform {
     key                  = "aws-k8s-tfstate.tfstate"
     region               = "eu-west-1"
     encrypt              = true
+
+    shared_credentials_file = "~/.aws/credentials"
+    profile                 = "piwpiiwn"
   }
 }
