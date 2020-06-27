@@ -12,17 +12,6 @@ resource "aws_security_group" "worker_1" {
   )
 }
 
-resource "aws_security_group_rule" "worker_1_allow_ssh" {
-  security_group_id = aws_security_group.worker_1.id
-
-  type        = "ingress"
-  description = "Allow SSH from everywhere"
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-}
-
 resource "aws_security_group_rule" "worker_1_allow_egress" {
   security_group_id = aws_security_group.worker_1.id
 
@@ -65,7 +54,7 @@ resource "aws_spot_instance_request" "worker_1" {
   tags = merge(
     var.tags,
     map(
-      "Name", "k8s_worker_2"
+      "Name", "k8s_worker_1"
     )
   )
 }
@@ -82,17 +71,6 @@ resource "aws_security_group" "worker_2" {
       "Name", "k8s_worker_2"
     )
   )
-}
-
-resource "aws_security_group_rule" "worker_2_allow_ssh" {
-  security_group_id = aws_security_group.worker_2.id
-
-  type        = "ingress"
-  description = "Allow SSH from everywhere"
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "worker_2_allow_egress" {
