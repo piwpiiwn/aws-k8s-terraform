@@ -34,7 +34,7 @@ resource "aws_security_group_rule" "master_allow_egress" {
 }
 
 resource "aws_security_group_rule" "master_allow_worker_1" {
-  security_group_id = aws_security_group.worker_1.id
+  security_group_id = aws_security_group.master.id
 
   type                     = "ingress"
   description              = "Allow all traffic from workers"
@@ -43,6 +43,17 @@ resource "aws_security_group_rule" "master_allow_worker_1" {
   protocol                 = -1
   source_security_group_id = aws_security_group.worker_1.id
 }
+
+# resource "aws_security_group_rule" "master_allow_worker_2" {
+#   security_group_id = aws_security_group.master.id
+
+#   type                     = "ingress"
+#   description              = "Allow all traffic from workers"
+#   from_port                = 0
+#   to_port                  = 0
+#   protocol                 = -1
+#   source_security_group_id = aws_security_group.worker_2.id
+# }
 
 resource "aws_spot_instance_request" "master" {
   ami           = local.master_ami
