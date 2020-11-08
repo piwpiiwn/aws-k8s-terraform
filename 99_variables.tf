@@ -1,59 +1,40 @@
-variable region {
-  type        = string
-  default     = "eu-west-1"
-  description = "AWS Region"
-}
-
 variable tags {
   type        = map
+  default     = {}
   description = "Default tags"
 }
+
+# NETWORK VARS
 
 variable vpc_cidr_block {
   type        = string
   default     = "10.0.0.0/16"
-  description = "CIDR for K8S VPC"
+  description = "CIDR for K8s VPC"
 }
 
-variable management_subnet_cidr_block {
+variable subnet_cidr_block {
   type        = string
-  default     = "10.0.255.0/24"
+  default     = "10.0.0.0/24"
   description = "CIDR for K8S Management Subnet"
 }
 
-variable worker_subnet_1_cidr_block {
-  type        = string
-  default     = "10.0.1.0/24"
-  description = "CIDR for K8S Subnet 1"
-}
-
-variable worker_subnet_2_cidr_block {
-  type        = string
-  default     = "10.0.2.0/24"
-  description = "CIDR for K8S Subnet 2"
-}
+# INSTANCES VARS
 
 variable master_instance_type {
   type        = string
-  default     = "t3.medium"
+  default     = "t3a.medium"
   description = "Master Node Instance Type"
-}
-
-variable master_spot_price {
-  type        = string
-  default     = "0.0456"
-  description = "Master Node Spot Price"
 }
 
 variable worker_instance_type {
   type        = string
-  default     = "t3.medium"
+  default     = "t3a.medium"
   description = "Worker Node Instance Type"
 }
 
 variable worker_spot_price {
   type        = string
-  default     = "0.0456"
+  default     = "0.0408"
   description = "Worker Node Spot Price"
 }
 
@@ -63,8 +44,9 @@ variable key_name {
   description = "Public Key Name"
 }
 
-variable local_private_key_path {
-  type        = string
-  default     = "~/.ssh/piwpiiwn.id_rsa"
-  description = "Public Key Name"
+# SECURITY GROUPS VARS
+variable allowed_ips {
+  type        = list
+  default     = ["0.0.0.0/0"] # All
+  description = "Allowed IPs for managing the cluster"
 }
